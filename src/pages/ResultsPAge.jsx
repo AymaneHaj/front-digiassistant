@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Download, Target, AlertCircle, Trophy, TrendingUp, CheckCircle, RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearChat } from '../store/chatSlice';
 import api from '../services/api';
 
 export default function ResultsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const [results, setResults] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -106,22 +108,11 @@ export default function ResultsPage() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200 sticky top-16 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <motion.button
-              onClick={() => navigate(-1)}
-              className="flex items-center gap-2 text-[#5A5A5A] hover:text-[#008C9E] transition-colors"
-              whileHover={{ x: -4 }}
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span className="font-medium">Back</span>
-            </motion.button>
-
+          <div className="flex items-center justify-center">
             <div className="text-center">
               <h1 className="text-3xl font-bold text-[#343A40]">Diagnostic Results</h1>
               <p className="text-[#5A5A5A] text-sm mt-1">Your digital maturity assessment report</p>
             </div>
-
-            <div className="w-20"></div>
           </div>
         </div>
       </div>
@@ -500,7 +491,12 @@ export default function ResultsPage() {
           </motion.button>
 
           <motion.button
-            onClick={() => navigate('/chat')}
+            onClick={() => {
+              // Clear current chat state to start fresh
+              dispatch(clearChat());
+              // Navigate to chat page to start a new assessment
+              navigate('/chat');
+            }}
             className="px-8 py-3 bg-white hover:bg-gray-50 text-[#343A40] rounded-lg font-semibold transition-all shadow-md hover:shadow-lg border border-gray-300"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}

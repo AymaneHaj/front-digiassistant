@@ -25,6 +25,13 @@ export default function ChatPage() {
 
   const { isAuthenticated } = useSelector((state) => state.auth);
 
+  // Reset initialization flag when conversation is cleared (for starting new assessment)
+  useEffect(() => {
+    if (!conversationId && history.length === 0) {
+      hasInitialized.current = false; // Reset to allow new initialization
+    }
+  }, [conversationId, history.length]);
+
   // 1. On Mount: Resume or start a new chat session
   // Only run once when component mounts and user is authenticated
   useEffect(() => {

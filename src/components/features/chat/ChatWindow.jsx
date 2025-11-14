@@ -13,10 +13,24 @@ const TOTAL_QUESTIONS = 72; // Total number of diagnostic questions
 
 export default function ChatWindow({ history, isLoading, onSendMessage }) {
     const messagesEndRef = useRef(null);
+    const isInitialMount = useRef(true);
 
     // Auto-scroll to the bottom when history changes
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        if (messagesEndRef.current) {
+            // On initial mount with existing history, use a slight delay to ensure DOM is ready
+            if (isInitialMount.current && history.length > 0) {
+                requestAnimationFrame(() => {
+                    setTimeout(() => {
+                        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+                    }, 200);
+                });
+                isInitialMount.current = false;
+            } else {
+                // For subsequent history changes, scroll immediately
+                messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
     }, [history]);
 
     // Calculate progress: count answered questions (user messages)

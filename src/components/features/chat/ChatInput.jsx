@@ -11,6 +11,22 @@ export default function ChatInput({ onSend, isLoading }) {
     const [isListening, setIsListening] = useState(false);
     const [isSupported, setIsSupported] = useState(false);
     const recognitionRef = useRef(null);
+    const textareaRef = useRef(null);
+    const prevIsLoadingRef = useRef(isLoading);
+
+    // Clear input and auto-focus when loading finishes (response received)
+    // This ensures the input stays empty and is ready for typing after receiving the AI response
+    useEffect(() => {
+        // If isLoading changed from true to false (response received), clear input and focus
+        if (prevIsLoadingRef.current === true && isLoading === false) {
+            setMessage('');
+            // Auto-focus the textarea after a short delay to ensure it's ready
+            setTimeout(() => {
+                textareaRef.current?.focus();
+            }, 100);
+        }
+        prevIsLoadingRef.current = isLoading;
+    }, [isLoading]);
 
     // Check if Speech Recognition is supported
     useEffect(() => {
@@ -73,7 +89,7 @@ export default function ChatInput({ onSend, isLoading }) {
         }
         if (message.trim() && !isLoading) {
             stopListening(); // Stop listening if active
-            onSend(message);
+            onSend(message.trim());
             setMessage(''); // Clear input after sending
         }
     };
@@ -82,6 +98,7 @@ export default function ChatInput({ onSend, isLoading }) {
         <form onSubmit={handleSubmit} className="flex items-end gap-2" noValidate>
             <div className="flex-1 relative">
                 <textarea
+                    ref={textareaRef}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyDown={(e) => {
@@ -93,8 +110,8 @@ export default function ChatInput({ onSend, isLoading }) {
                     }}
                     rows="1"
                     className="w-full resize-none rounded-2xl border-2 border-gray-200 bg-white/80 backdrop-blur-sm shadow-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-all duration-200 px-4 py-3 text-sm placeholder:text-gray-400"
-                    placeholder={isLoading ? 'Thinking...' : isListening ? '🎤 Écoute en cours...' : 'Tapez votre réponse ou utilisez le microphone...'}
-                    disabled={isLoading || isListening}
+                    placeholder={isLoading ? 'Envoi en cours...' : isListening ? '🎤 Écoute en cours...' : 'Tapez votre réponse ou utilisez le microphone...'}
+                    disabled={isListening}
                     style={{ minHeight: '48px', maxHeight: '120px' }}
                 />
                 {isListening && (
