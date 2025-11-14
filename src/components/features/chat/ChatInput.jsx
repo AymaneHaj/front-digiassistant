@@ -68,7 +68,9 @@ export default function ChatInput({ onSend, isLoading }) {
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+        if (e && e.preventDefault) {
+            e.preventDefault();
+        }
         if (message.trim() && !isLoading) {
             stopListening(); // Stop listening if active
             onSend(message);
@@ -77,7 +79,7 @@ export default function ChatInput({ onSend, isLoading }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex items-end gap-2">
+        <form onSubmit={handleSubmit} className="flex items-end gap-2" noValidate>
             <div className="flex-1 relative">
                 <textarea
                     value={message}
@@ -96,7 +98,7 @@ export default function ChatInput({ onSend, isLoading }) {
                     style={{ minHeight: '48px', maxHeight: '120px' }}
                 />
                 {isListening && (
-                    <div className="absolute top-2 right-2 flex items-center gap-2">
+                    <div className="absolute top-1/2 right-2 transform -translate-y-1/2 flex items-center gap-2 z-10">
                         <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
                         <span className="text-xs text-red-500 font-medium">Enregistrement...</span>
                     </div>
@@ -139,7 +141,8 @@ export default function ChatInput({ onSend, isLoading }) {
 
             {/* Send Button */}
             <motion.button
-                type="submit"
+                type="button"
+                onClick={handleSubmit}
                 disabled={isLoading || !message.trim() || isListening}
                 className={`
                     flex-shrink-0

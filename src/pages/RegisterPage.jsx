@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { register as registerAction } from '../store/authSlice';
+import { register as registerAction, fetchUserInfo } from '../store/authSlice';
 import { AlertCircle, UserPlus, Mail, Lock, CheckCircle, Building2, Briefcase, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -37,6 +37,10 @@ export default function RegisterPage() {
         sector: data.sector,
         company_size: data.company_size
       })).unwrap();
+      
+      // Fetch user info including score
+      await dispatch(fetchUserInfo());
+      
       navigate('/chat');
     } catch (rejectedValueOrSerializedError) {
       console.error('Registration failed:', rejectedValueOrSerializedError);

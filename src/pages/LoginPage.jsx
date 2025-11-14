@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../store/authSlice';
+import { login, fetchUserInfo } from '../store/authSlice';
 import { AlertCircle, LogIn, Mail, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -29,6 +29,9 @@ export default function LoginPage() {
     try {
       // Dispatch the login thunk
       await dispatch(login(data)).unwrap();
+      
+      // Fetch user info including score
+      await dispatch(fetchUserInfo());
 
       // On success, navigate to chat page
       navigate('/chat');
@@ -184,17 +187,20 @@ export default function LoginPage() {
             </>
           )}
         </motion.button>
-
-        {/* Forgot Password Link */}
-        <div className="text-center">
-          <Link
-            to="/forgot-password"
-            className="text-xs sm:text-sm text-[#5A5A5A] hover:text-[#008C9E] transition-colors font-medium"
-          >
-            Mot de passe oublié?
-          </Link>
-        </div>
       </form>
+
+      {/* Register Link */}
+      <div className="text-center pt-4 border-t border-gray-200">
+        <p className="text-xs sm:text-sm text-[#5A5A5A] mb-2">
+          Vous n'avez pas de compte?
+        </p>
+        <Link
+          to="/register"
+          className="inline-flex items-center gap-2 px-6 sm:text-base"
+        >
+          Créer un compte
+        </Link>
+      </div>
       </div>
     </motion.div>
   );

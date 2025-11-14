@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LogOut, Menu, X } from 'lucide-react';
+import { LogOut, Menu, X, MessageCircle } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout as logoutAction } from '../../store/authSlice';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -50,54 +50,84 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-2">
-            {/* Main Navigation Links */}
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Link 
-                to="/" 
-                className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
-                  location.pathname === '/' 
-                    ? 'text-[#008C9E] bg-[#008C9E]/10' 
-                    : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
-                }`}
-              >
-                Accueil
-              </Link>
-            </motion.div>
+            {/* Main Navigation Links - Hide Home and About when authenticated */}
+            {!isAuthenticated && (
+              <>
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <Link 
+                    to="/" 
+                    className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
+                      location.pathname === '/' 
+                        ? 'text-[#008C9E] bg-[#008C9E]/10' 
+                        : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
+                    }`}
+                  >
+                    Accueil
+                  </Link>
+                </motion.div>
 
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Link 
-                to="/about" 
-                className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
-                  location.pathname === '/about' 
-                    ? 'text-[#008C9E] bg-[#008C9E]/10' 
-                    : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
-                }`}
-              >
-                À Propos
-              </Link>
-            </motion.div>
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <Link 
+                    to="/about" 
+                    className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
+                      location.pathname === '/about' 
+                        ? 'text-[#008C9E] bg-[#008C9E]/10' 
+                        : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
+                    }`}
+                  >
+                    À Propos
+                  </Link>
+                </motion.div>
+              </>
+            )}
 
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Link 
-                to="/services" 
-                className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
-                  location.pathname === '/services' 
-                    ? 'text-[#008C9E] bg-[#008C9E]/10' 
-                    : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
-                }`}
-              >
-                Services
-              </Link>
-            </motion.div>
+            {/* Show Services and Contact only when NOT authenticated */}
+            {!isAuthenticated && (
+              <>
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <Link 
+                    to="/services" 
+                    className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
+                      location.pathname === '/services' 
+                        ? 'text-[#008C9E] bg-[#008C9E]/10' 
+                        : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
+                    }`}
+                  >
+                    Services
+                  </Link>
+                </motion.div>
 
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <a 
-                href="mailto:contact@digiassistant.com" 
-                className="px-4 py-2 text-sm font-semibold text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5 rounded-lg transition-all duration-200"
-              >
-                Contact
-              </a>
-            </motion.div>
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <Link 
+                    to="/contact"
+                    className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
+                      location.pathname === '/contact' 
+                        ? 'text-[#008C9E] bg-[#008C9E]/10' 
+                        : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
+                    }`}
+                  >
+                    Contact
+                  </Link>
+                </motion.div>
+              </>
+            )}
+
+            {/* Show Chat link when authenticated */}
+            {isAuthenticated && (
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Link 
+                  to="/chat" 
+                  className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
+                    location.pathname === '/chat' || location.pathname === '/diagnostic'
+                      ? 'text-[#008C9E] bg-[#008C9E]/10' 
+                      : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
+                  }`}
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>Chat</span>
+                </Link>
+              </motion.div>
+            )}
 
             {/* Separator */}
             <div className="w-px h-6 bg-gray-200 mx-2"></div>
@@ -113,7 +143,7 @@ export default function Header() {
                 <LogOut className="w-4 h-4" />
                 <span>Déconnexion</span>
               </motion.button>
-            ) : !isAuthPage && !isAuthenticated ? (
+            ) : !isAuthenticated ? (
               <>
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Link
@@ -156,50 +186,79 @@ export default function Header() {
               transition={{ duration: 0.2 }}
             >
               <div className="px-4 py-4 space-y-3">
-                {/* Mobile Menu Links */}
-                <Link
-                  to="/"
-                  className={`block px-4 py-2.5 text-sm font-semibold rounded-lg transition-all ${
-                    location.pathname === '/' 
-                      ? 'text-[#008C9E] bg-[#008C9E]/10' 
-                      : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Accueil
-                </Link>
+                {/* Mobile Menu Links - Hide Home and About when authenticated */}
+                {!isAuthenticated && (
+                  <>
+                    <Link
+                      to="/"
+                      className={`block px-4 py-2.5 text-sm font-semibold rounded-lg transition-all ${
+                        location.pathname === '/' 
+                          ? 'text-[#008C9E] bg-[#008C9E]/10' 
+                          : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Accueil
+                    </Link>
 
-                <Link
-                  to="/about"
-                  className={`block px-4 py-2.5 text-sm font-semibold rounded-lg transition-all ${
-                    location.pathname === '/about' 
-                      ? 'text-[#008C9E] bg-[#008C9E]/10' 
-                      : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  À Propos
-                </Link>
+                    <Link
+                      to="/about"
+                      className={`block px-4 py-2.5 text-sm font-semibold rounded-lg transition-all ${
+                        location.pathname === '/about' 
+                          ? 'text-[#008C9E] bg-[#008C9E]/10' 
+                          : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      À Propos
+                    </Link>
+                  </>
+                )}
 
-                <Link
-                  to="/services"
-                  className={`block px-4 py-2.5 text-sm font-semibold rounded-lg transition-all ${
-                    location.pathname === '/services' 
-                      ? 'text-[#008C9E] bg-[#008C9E]/10' 
-                      : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Services
-                </Link>
+                {/* Show Services and Contact only when NOT authenticated */}
+                {!isAuthenticated && (
+                  <>
+                    <Link
+                      to="/services"
+                      className={`block px-4 py-2.5 text-sm font-semibold rounded-lg transition-all ${
+                        location.pathname === '/services' 
+                          ? 'text-[#008C9E] bg-[#008C9E]/10' 
+                          : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Services
+                    </Link>
 
-                <a
-                  href="mailto:contact@digiassistant.com"
-                  className="block px-4 py-2.5 text-sm font-semibold text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5 rounded-lg transition-all"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Contact
-                </a>
+                    <Link
+                      to="/contact"
+                      className={`block px-4 py-2.5 text-sm font-semibold rounded-lg transition-all ${
+                        location.pathname === '/contact' 
+                          ? 'text-[#008C9E] bg-[#008C9E]/10' 
+                          : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Contact
+                    </Link>
+                  </>
+                )}
+
+                {/* Show Chat link when authenticated */}
+                {isAuthenticated && (
+                  <Link
+                    to="/chat"
+                    className={`flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-lg transition-all ${
+                      location.pathname === '/chat' || location.pathname === '/diagnostic'
+                        ? 'text-[#008C9E] bg-[#008C9E]/10' 
+                        : 'text-[#5A5A5A] hover:text-[#008C9E] hover:bg-[#008C9E]/5'
+                    }`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>Chat</span>
+                  </Link>
+                )}
 
                 <div className="border-t border-gray-200 pt-3 space-y-2">
                   {isAuthenticated ? (

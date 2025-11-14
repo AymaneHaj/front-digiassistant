@@ -139,7 +139,16 @@ export const chatSlice = createSlice({
                         }
                         // Add user answer (only if it's a real answer, not a placeholder)
                         if (entry.user_answer && entry.user_answer !== '__PENDING__') {
-                            messages.push({ role: 'user', content: entry.user_answer });
+                            const userMessage = { 
+                                role: 'user', 
+                                content: entry.user_answer 
+                            };
+                            // Preserve score from evaluation if it exists
+                            if (entry.evaluation && entry.evaluation.score !== undefined) {
+                                userMessage.score = entry.evaluation.score;
+                                userMessage.evaluation = entry.evaluation;
+                            }
+                            messages.push(userMessage);
                         }
                         return messages;
                     });
@@ -187,9 +196,22 @@ export const chatSlice = createSlice({
             })
 
             // --- sendMessage ---
-            .addCase(sendMessage.pending, (state) => {
+            .addCase(sendMessage.pending, (state, action) => {
                 state.isLoading = true;
                 state.error = null;
+                
+                // Add user's message immediately to history (optimistic update)
+                const { userAnswer, isStart } = action.meta.arg;
+                if (!isStart && userAnswer) {
+                    // Check if this message is already in history (to avoid duplicates)
+                    const lastMessage = state.history[state.history.length - 1];
+                    if (!lastMessage || lastMessage.role !== 'user' || lastMessage.content !== userAnswer) {
+                        state.history.push({ 
+                            role: 'user', 
+                            content: userAnswer 
+                        });
+                    }
+                }
             })
             .addCase(sendMessage.fulfilled, (state, action) => {
                 const { ai_question, userAnswer, isStart, conversation_id, current_criterion_id, evaluation, score } = action.payload;
@@ -221,18 +243,19 @@ export const chatSlice = createSlice({
 
                 state.conversationId = conversation_id;
 
-                // If it wasn't the first message, add the user's answer to history with score
+                // Update the last user message with score if available (it was already added in pending)
                 if (!isStart && userAnswer) {
-                    const userMessage = { 
-                        role: 'user', 
-                        content: userAnswer 
-                    };
-                    // Add score if available
-                    if (score !== undefined || evaluation) {
-                        userMessage.score = score !== undefined ? score : evaluation?.score;
-                        userMessage.evaluation = evaluation;
+                    const lastUserMessage = [...state.history].reverse().find(msg => msg.role === 'user' && msg.content === userAnswer);
+                    if (lastUserMessage) {
+                        // Update the existing message with score
+                        const messageIndex = state.history.findIndex(msg => msg === lastUserMessage);
+                        if (messageIndex !== -1) {
+                            if (score !== undefined || evaluation) {
+                                state.history[messageIndex].score = score !== undefined ? score : evaluation?.score;
+                                state.history[messageIndex].evaluation = evaluation;
+                            }
+                        }
                     }
-                    state.history.push(userMessage);
                 }
 
                 // Add the AI's response (only if we have a question and it's not a duplicate)

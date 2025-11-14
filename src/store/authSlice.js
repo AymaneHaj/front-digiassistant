@@ -44,6 +44,21 @@ export const register = createAsyncThunk(
     }
 );
 
+/**
+ * Thunk for fetching current user info (including score).
+ */
+export const fetchUserInfo = createAsyncThunk(
+    'auth/fetchUserInfo',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await api.get('/api/auth/me');
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.error || 'Failed to fetch user info');
+        }
+    }
+);
+
 // --- Initial State ---
 
 const initialState = {
@@ -80,8 +95,8 @@ export const authSlice = createSlice({
             if (token) {
                 state.token = token;
                 state.isAuthenticated = true;
-                // You might want to decode the token here to get user info
-                // or fetch /api/auth/me
+                // Fetch user info including score
+                // This will be handled by the async thunk
             } else {
                 state.isAuthenticated = false;
             }
@@ -133,6 +148,20 @@ export const authSlice = createSlice({
                 state.isAuthenticated = false;
                 state.user = null;
                 state.token = null;
+            })
+            // --- Fetch User Info Thunk ---
+            .addCase(fetchUserInfo.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(fetchUserInfo.fulfilled, (state, action) => {
+                state.user = action.payload;
+                state.isLoading = false;
+                state.error = null;
+            })
+            .addCase(fetchUserInfo.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
             });
     },
 });

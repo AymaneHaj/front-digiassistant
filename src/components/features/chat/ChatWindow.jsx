@@ -25,7 +25,6 @@ export default function ChatWindow({ history, isLoading, onSendMessage }) {
 
     return (
         <div className="flex flex-col h-full bg-white/80 backdrop-blur-xl shadow-2xl rounded-3xl overflow-hidden border border-gray-200/50">
-
             {/* Progress Bar */}
             <div className="px-6 pt-4 pb-3 bg-gradient-to-r from-primary-50/50 via-white to-blue-50/50 border-b border-gray-200/50">
                 <div className="flex items-center justify-between mb-2">
@@ -74,20 +73,6 @@ export default function ChatWindow({ history, isLoading, onSendMessage }) {
                                 evaluation={msg.evaluation}
                             />
                         ))}
-                        {isLoading && (
-                            <div className="flex items-start gap-3">
-                                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 via-primary-400 to-primary-600 flex items-center justify-center shadow-lg">
-                                    <Loader2 className="w-5 h-5 text-white animate-spin" />
-                                </div>
-                                <div className="px-5 py-3.5 rounded-2xl rounded-bl-sm bg-white border border-gray-200/50 shadow-md">
-                                    <div className="flex gap-1">
-                                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
                         {/* This empty div is the target for auto-scrolling */}
                         <div ref={messagesEndRef} />
                     </>

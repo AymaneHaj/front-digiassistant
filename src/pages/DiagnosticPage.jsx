@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { resumeOrStartChat, sendMessage } from '../store/chatSlice';
+import { fetchUserInfo } from '../store/authSlice';
 import Spinner from '../components/common/Spinner';
 import ChatWindow from '../components/features/chat/ChatWindow';
 import { AlertCircle, RefreshCw } from 'lucide-react';
@@ -46,14 +47,17 @@ export default function ChatPage() {
   }, [isFinished, conversationId]); // navigate is stable, no need to include it
 
   // 3. Handle Send Message
-  const handleSendMessage = (userAnswer) => {
+  const handleSendMessage = async (userAnswer) => {
     if (!userAnswer.trim() || isLoading) return;
 
-    dispatch(sendMessage({
+    await dispatch(sendMessage({
       conversationId,
       userAnswer,
       isStart: false
     }));
+    
+    // Refresh user info to get updated score
+    dispatch(fetchUserInfo());
   };
 
   // 4. Handle Retry

@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { store } from './store/store';
-import { checkAuthStatus } from './store/authSlice';
+import { checkAuthStatus, fetchUserInfo } from './store/authSlice';
 
 // Layouts
 import MainLayout from './layout/MainLayout';
@@ -20,6 +20,7 @@ import DiagnosticPage from './pages/DiagnosticPage';
 import ResultsPage from './pages/ResultsPAge';
 import AboutPage from './pages/AboutPage';
 import ServicesPage from './pages/ServicesPage';
+import ContactPage from './pages/ContactPage';
 
 // Simple Spinner for initial load
 import Spinner from './components/common/Spinner';
@@ -30,6 +31,13 @@ function App() {
   // On initial app load, check auth status from localStorage
   useEffect(() => {
     store.dispatch(checkAuthStatus());
+    // Use setTimeout to ensure state is updated before checking
+    setTimeout(() => {
+      const state = store.getState();
+      if (state.auth.isAuthenticated && state.auth.token) {
+        store.dispatch(fetchUserInfo());
+      }
+    }, 0);
   }, []);
 
   // Show a global spinner while Redux rehydrates auth state
@@ -64,12 +72,13 @@ function App() {
         </Route>
       </Route>
 
-      {/* 3. Public Routes (Landing, About, Services) */}
+      {/* 3. Public Routes (Landing, About, Services, Contact) */}
       {/* Uses <MainLayout> */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<LandingPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/services" element={<ServicesPage />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Route>
 
       {/* 4. Catch-all (404) Route */}

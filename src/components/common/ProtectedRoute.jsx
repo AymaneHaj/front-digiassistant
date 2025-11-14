@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 /**
@@ -10,6 +10,7 @@ import { motion } from 'framer-motion';
  */
 const ProtectedRoute = () => {
   const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
+  const location = useLocation();
 
   if (isLoading) {
     return (
@@ -26,7 +27,16 @@ const ProtectedRoute = () => {
     );
   }
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // If authenticated and trying to access root, redirect to chat
+  if (location.pathname === '/') {
+    return <Navigate to="/chat" replace />;
+  }
+
+  return <Outlet />;
 };
 
 export default ProtectedRoute;
