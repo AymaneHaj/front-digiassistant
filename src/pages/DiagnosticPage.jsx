@@ -12,6 +12,7 @@ export default function ChatPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const hasInitialized = useRef(false); // Track if we've already initialized
+  const previousUserId = useRef(null); // Track previous user ID
 
   // Select state from Redux (chat & auth)
   const {
@@ -23,7 +24,18 @@ export default function ChatPage() {
     isInitializing
   } = useSelector((state) => state.chat);
 
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+
+  // Reset initialization when user changes
+  useEffect(() => {
+    const currentUserId = user?.id;
+    if (previousUserId.current !== null && previousUserId.current !== currentUserId) {
+      // User has changed - reset everything
+      hasInitialized.current = false;
+      console.log('[DiagnosticPage] User changed, resetting initialization');
+    }
+    previousUserId.current = currentUserId;
+  }, [user?.id]);
 
   // Reset initialization flag when conversation is cleared (for starting new assessment)
   useEffect(() => {

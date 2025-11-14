@@ -2,6 +2,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogOut, Menu, X, MessageCircle } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout as logoutAction } from '../../store/authSlice';
+import { clearChat } from '../../store/chatSlice';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import logo from '../../assets/logo.png';
@@ -14,9 +15,12 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
+    // Clear chat state explicitly before logout
+    dispatch(clearChat());
+    // Logout will clear auth state and localStorage
     dispatch(logoutAction());
-    navigate('/login');
-    setIsMobileMenuOpen(false);
+    // Force page reload to ensure clean state
+    window.location.href = '/login';
   };
 
   const toggleMobileMenu = () => {

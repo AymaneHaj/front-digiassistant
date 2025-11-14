@@ -81,7 +81,8 @@ export const authSlice = createSlice({
          * Handles manual logout.
          */
         logout: (state) => {
-            localStorage.removeItem('token');
+            // Clear all localStorage data
+            localStorage.clear();
             state.token = null;
             state.user = null;
             state.isAuthenticated = false;
@@ -114,12 +115,16 @@ export const authSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, action) => {
                 const { user, token } = action.payload;
+                // Clear any old data first
+                localStorage.clear();
+                // Set new token
                 localStorage.setItem('token', token);
                 state.isAuthenticated = true;
                 state.isLoading = false;
                 state.user = user;
                 state.token = token;
                 state.error = null;
+                // Note: Chat state will be cleared by the chatSlice reducer
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;
@@ -135,12 +140,16 @@ export const authSlice = createSlice({
             })
             .addCase(register.fulfilled, (state, action) => {
                 const { user, token } = action.payload;
+                // Clear any old data first
+                localStorage.clear();
+                // Set new token
                 localStorage.setItem('token', token);
                 state.isAuthenticated = true;
                 state.isLoading = false;
                 state.user = user;
                 state.token = token;
                 state.error = null;
+                // Note: Chat state will be cleared by the chatSlice reducer
             })
             .addCase(register.rejected, (state, action) => {
                 state.isLoading = false;

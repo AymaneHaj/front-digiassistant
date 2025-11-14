@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../services/api';
 import { v4 as uuidv4 } from 'uuid'; // For generating conversation_id
+import { login, register, logout } from './authSlice'; // Import auth actions to clear chat on user change
 
 // --- Async Thunks ---
 
@@ -285,6 +286,36 @@ export const chatSlice = createSlice({
             .addCase(sendMessage.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
+            })
+            
+            // Clear chat state when user logs in, registers, or logs out
+            // This ensures each user only sees their own data
+            .addCase(login.fulfilled, (state) => {
+                // Clear chat state when a new user logs in
+                state.conversationId = null;
+                state.history = [];
+                state.isLoading = false;
+                state.error = null;
+                state.isFinished = false;
+                state.isInitializing = false;
+            })
+            .addCase(register.fulfilled, (state) => {
+                // Clear chat state when a new user registers
+                state.conversationId = null;
+                state.history = [];
+                state.isLoading = false;
+                state.error = null;
+                state.isFinished = false;
+                state.isInitializing = false;
+            })
+            .addCase(logout, (state) => {
+                // Clear chat state when user logs out
+                state.conversationId = null;
+                state.history = [];
+                state.isLoading = false;
+                state.error = null;
+                state.isFinished = false;
+                state.isInitializing = false;
             });
     },
 });
