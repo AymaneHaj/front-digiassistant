@@ -33,7 +33,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-white via-white to-blue-50/30 backdrop-blur-xl border-b border-gray-200/50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo & Brand */}
           <Link 
             to="/" 

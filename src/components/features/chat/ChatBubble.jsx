@@ -113,16 +113,16 @@ export default function ChatBubble({ role, content, score, evaluation }) {
             )}
 
             {/* Message Content */}
-            <div className="relative max-w-[85%] sm:max-w-[75%] md:max-w-md lg:max-w-lg">
+            <div className="relative max-w-[80%] xs:max-w-[85%] sm:max-w-[75%] md:max-w-md lg:max-w-lg">
                 <motion.div
-                    className={`px-3 py-2 sm:px-4 sm:py-2.5 md:px-5 md:py-3.5 rounded-xl sm:rounded-2xl shadow-md backdrop-blur-sm ${isUser
+                    className={`px-3 py-2.5 sm:px-4 sm:py-2.5 md:px-5 md:py-3.5 rounded-xl sm:rounded-2xl shadow-md backdrop-blur-sm ${isUser
                             ? 'bg-gradient-to-r from-primary-600 via-primary-500 to-primary-700 text-white rounded-br-sm'
                             : 'bg-white text-gray-800 rounded-bl-sm border border-gray-200/50'
                         }`}
                     whileHover={{ scale: 1.01 }}
                     transition={{ type: 'spring', stiffness: 400 }}
                 >
-                    <p className="text-xs sm:text-sm leading-relaxed whitespace-pre-wrap break-words">{content}</p>
+                    <p className="text-sm sm:text-base leading-relaxed whitespace-pre-wrap break-words hyphens-auto">{content}</p>
                     
                     {/* Show score for user messages */}
                     {isUser && (score !== undefined || evaluation?.score !== undefined) && (

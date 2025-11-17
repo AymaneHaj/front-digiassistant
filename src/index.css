@@ -149,17 +149,44 @@ html {
   
   /* More visible scrollbar on mobile */
   .scrollbar-thin::-webkit-scrollbar {
-    width: 12px !important;
-    height: 12px !important;
+    width: 14px !important;
+    height: 14px !important;
   }
   
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 140, 158, 0.8) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    background-color: rgba(0, 140, 158, 0.85) !important;
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+    min-height: 30px;
   }
   
   .scrollbar-thin::-webkit-scrollbar-track {
-    background: rgba(243, 244, 246, 0.9) !important;
+    background: rgba(243, 244, 246, 0.95) !important;
+    border-radius: 10px;
+  }
+  
+  /* Better text readability on mobile */
+  p, span, div {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Prevent horizontal scroll on mobile */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Better spacing for small screens */
+  .container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 375px) {
+  /* Even more compact spacing */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 12px !important;
   }
 }
 

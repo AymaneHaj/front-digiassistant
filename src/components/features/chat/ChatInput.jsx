@@ -109,7 +109,7 @@ export default function ChatInput({ onSend, isLoading }) {
                         }
                     }}
                     rows="1"
-                    className="w-full resize-none rounded-xl sm:rounded-2xl border-2 border-gray-200 bg-white/80 backdrop-blur-sm shadow-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-all duration-200 px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base placeholder:text-gray-400"
+                    className="w-full resize-none rounded-xl sm:rounded-2xl border-2 border-gray-200 bg-white/80 backdrop-blur-sm shadow-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-all duration-200 px-3 sm:px-4 py-2.5 sm:py-3 text-base sm:text-base placeholder:text-gray-400"
                     placeholder={isLoading ? 'Envoi en cours...' : isListening ? '🎤 Écoute...' : 'Tapez votre réponse...'}
                     disabled={isListening}
                     style={{ minHeight: '44px', maxHeight: '120px' }}

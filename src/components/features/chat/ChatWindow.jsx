@@ -38,7 +38,7 @@ export default function ChatWindow({ history, isLoading, onSendMessage }) {
     const progressPercentage = Math.min(Math.round((answeredQuestions / TOTAL_QUESTIONS) * 100), 100);
 
     return (
-        <div className="flex flex-col h-full bg-white/80 backdrop-blur-xl shadow-2xl rounded-xl sm:rounded-3xl overflow-hidden border border-gray-200/50">
+        <div className="flex flex-col h-full bg-white/80 backdrop-blur-xl shadow-2xl rounded-lg sm:rounded-xl md:rounded-3xl overflow-hidden border border-gray-200/50">
             {/* Progress Bar */}
             <div className="px-3 sm:px-6 pt-3 sm:pt-4 pb-2 sm:pb-3 bg-gradient-to-r from-primary-50/50 via-white to-blue-50/50 border-b border-gray-200/50">
                 <div className="flex items-center justify-between mb-1.5 sm:mb-2">
@@ -68,7 +68,7 @@ export default function ChatWindow({ history, isLoading, onSendMessage }) {
             </div>
 
             {/* Message List */}
-            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-5 scrollbar-thin scrollbar-thumb-primary-300 scrollbar-track-gray-100 hover:scrollbar-thumb-primary-400" style={{ scrollbarGutter: 'stable' }}>
+            <div className="flex-1 overflow-y-auto p-2.5 sm:p-4 md:p-6 space-y-2.5 sm:space-y-4 md:space-y-5 scrollbar-thin scrollbar-thumb-primary-300 scrollbar-track-gray-100 hover:scrollbar-thumb-primary-400" style={{ scrollbarGutter: 'stable', WebkitOverflowScrolling: 'touch' }}>
                 {history.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full text-gray-400">
                         <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center mb-3 sm:mb-4">
