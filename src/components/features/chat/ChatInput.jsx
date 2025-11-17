@@ -10,9 +10,12 @@ export default function ChatInput({ onSend, isLoading }) {
     const [message, setMessage] = useState('');
     const [isListening, setIsListening] = useState(false);
     const [isSupported, setIsSupported] = useState(false);
+    const [keyboardHeight, setKeyboardHeight] = useState(0);
+    const [isMobile, setIsMobile] = useState(false);
     const recognitionRef = useRef(null);
     const textareaRef = useRef(null);
     const prevIsLoadingRef = useRef(isLoading);
+    const inputContainerRef = useRef(null);
 
     // Clear input and auto-focus when loading finishes (response received)
     // This ensures the input stays empty and is ready for typing after receiving the AI response
@@ -27,6 +30,53 @@ export default function ChatInput({ onSend, isLoading }) {
         }
         prevIsLoadingRef.current = isLoading;
     }, [isLoading]);
+
+    // Check if mobile
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 640);
+        };
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // Handle keyboard on mobile - adjust input position
+    useEffect(() => {
+        if (!isMobile) {
+            setKeyboardHeight(0);
+            return;
+        }
+
+        const handleViewportResize = () => {
+            if (window.visualViewport) {
+                // Calculate keyboard height using visual viewport
+                const viewportHeight = window.visualViewport.height;
+                const windowHeight = window.innerHeight;
+                const calculatedKeyboardHeight = windowHeight - viewportHeight;
+                
+                // Only update if keyboard is actually visible (threshold: 50px)
+                if (calculatedKeyboardHeight > 50) {
+                    setKeyboardHeight(calculatedKeyboardHeight);
+                } else {
+                    setKeyboardHeight(0);
+                }
+            }
+        };
+
+        // Listen to visual viewport changes (keyboard)
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', handleViewportResize);
+            window.visualViewport.addEventListener('scroll', handleViewportResize);
+        }
+
+        return () => {
+            if (window.visualViewport) {
+                window.visualViewport.removeEventListener('resize', handleViewportResize);
+                window.visualViewport.removeEventListener('scroll', handleViewportResize);
+            }
+        };
+    }, [isMobile]);
 
     // Check if Speech Recognition is supported
     useEffect(() => {
@@ -95,7 +145,18 @@ export default function ChatInput({ onSend, isLoading }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex items-end gap-1.5 sm:gap-2" noValidate>
+        <form 
+            ref={inputContainerRef}
+            onSubmit={handleSubmit} 
+            className="flex items-center gap-1.5 sm:gap-2 transition-all duration-300 ease-out" 
+            style={{ 
+                transform: keyboardHeight > 0 && isMobile 
+                    ? `translateY(-${Math.min(keyboardHeight, 300)}px)` 
+                    : 'translateY(0)',
+                position: isMobile ? 'relative' : 'static'
+            }}
+            noValidate
+        >
             <div className="flex-1 relative">
                 <textarea
                     ref={textareaRef}
@@ -132,6 +193,7 @@ export default function ChatInput({ onSend, isLoading }) {
                         flex-shrink-0
                         w-10 h-10 sm:w-12 sm:h-12
                         rounded-full
+                        self-center
                         ${isListening 
                             ? 'bg-red-500 hover:bg-red-600' 
                             : 'bg-gray-200 hover:bg-gray-300'
@@ -165,6 +227,7 @@ export default function ChatInput({ onSend, isLoading }) {
                     flex-shrink-0
                     w-10 h-10 sm:w-12 sm:h-12
                     rounded-full
+                    self-center
                     bg-gradient-to-r from-primary-600 to-primary-700
                     hover:from-primary-700 hover:to-primary-800
                     text-white

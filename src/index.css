@@ -41,58 +41,23 @@ h1 {
   width: 100%;
 }
 
-/* Custom Scrollbar Styles */
+/* Custom Scrollbar Styles - Hidden */
 .scrollbar-thin {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 140, 158, 0.6) rgba(243, 244, 246, 0.5);
+  scrollbar-width: none; /* Firefox - hide scrollbar */
+  -ms-overflow-style: none; /* IE and Edge - hide scrollbar */
 }
 
 .scrollbar-thin::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  display: none; /* Chrome, Safari, Opera - hide scrollbar */
+  width: 0;
+  height: 0;
 }
 
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: rgba(243, 244, 246, 0.5);
-  border-radius: 10px;
-  margin: 4px 0;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 140, 158, 0.6);
-  border-radius: 10px;
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  transition: background-color 0.2s ease;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 140, 158, 0.8);
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb:active {
-  background-color: rgba(0, 140, 158, 1);
-}
-
-.scrollbar-thumb-primary-300::-webkit-scrollbar-thumb {
-  background-color: rgba(79, 209, 197, 0.7);
-}
-
-.scrollbar-thumb-primary-300::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(79, 209, 197, 0.9);
-}
-
-.scrollbar-thumb-primary-400::-webkit-scrollbar-thumb {
-  background-color: rgba(79, 209, 197, 0.8);
-}
-
-.scrollbar-thumb-primary-400::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(79, 209, 197, 1);
-}
-
-.scrollbar-track-gray-100::-webkit-scrollbar-track {
-  background-color: rgba(243, 244, 246, 0.8);
-  border-radius: 10px;
+/* Keep scrolling functionality */
+.scrollbar-thin {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Smooth Animations */
@@ -147,21 +112,16 @@ html {
     -webkit-overflow-scrolling: touch;
   }
   
-  /* More visible scrollbar on mobile */
+  /* Scrollbar hidden on mobile - scrolling still works */
+  .scrollbar-thin {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
   .scrollbar-thin::-webkit-scrollbar {
-    width: 14px !important;
-    height: 14px !important;
-  }
-  
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 140, 158, 0.85) !important;
-    border: 2px solid rgba(255, 255, 255, 0.4) !important;
-    min-height: 30px;
-  }
-  
-  .scrollbar-thin::-webkit-scrollbar-track {
-    background: rgba(243, 244, 246, 0.95) !important;
-    border-radius: 10px;
+    display: none;
+    width: 0;
+    height: 0;
   }
   
   /* Better text readability on mobile */
@@ -184,9 +144,16 @@ html {
 
 /* Extra small screens */
 @media (max-width: 375px) {
-  /* Even more compact spacing */
+  /* Scrollbar remains hidden */
+  .scrollbar-thin {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
   .scrollbar-thin::-webkit-scrollbar {
-    width: 12px !important;
+    display: none;
+    width: 0;
+    height: 0;
   }
 }
 
