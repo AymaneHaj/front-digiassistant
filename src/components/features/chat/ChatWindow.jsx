@@ -94,7 +94,7 @@ export default function ChatWindow({ history, isLoading, onSendMessage }) {
             </div>
 
             {/* Input Area */}
-            <div className="border-t border-gray-200/50 bg-gradient-to-r from-primary-50/30 via-white to-blue-50/30 backdrop-blur-sm p-3 sm:p-4 md:p-5">
+            <div className="border-t border-gray-200/50 bg-gradient-to-r from-primary-50/30 via-white to-blue-50/30 backdrop-blur-sm p-2.5 sm:p-3 md:p-4 lg:p-5">
                 <ChatInput onSend={onSendMessage} isLoading={isLoading} />
             </div>
         </div>

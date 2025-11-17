@@ -140,6 +140,20 @@ html {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
+  
+  /* Better input handling on mobile */
+  textarea, input {
+    font-size: 16px !important; /* Prevent zoom on iOS */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  
+  /* Better touch targets */
+  button {
+    -webkit-tap-highlight-color: rgba(0, 140, 158, 0.2);
+    touch-action: manipulation;
+  }
 }
 
 /* Extra small screens */

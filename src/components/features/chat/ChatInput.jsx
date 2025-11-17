@@ -148,7 +148,7 @@ export default function ChatInput({ onSend, isLoading }) {
         <form 
             ref={inputContainerRef}
             onSubmit={handleSubmit} 
-            className="flex items-center gap-1.5 sm:gap-2 transition-all duration-300 ease-out" 
+            className="flex items-center gap-1.5 sm:gap-2 transition-all duration-300 ease-out w-full" 
             style={{ 
                 transform: keyboardHeight > 0 && isMobile 
                     ? `translateY(-${Math.min(keyboardHeight, 300)}px)` 
@@ -157,7 +157,7 @@ export default function ChatInput({ onSend, isLoading }) {
             }}
             noValidate
         >
-            <div className="flex-1 relative">
+            <div className="flex-1 relative min-w-0">
                 <textarea
                     ref={textareaRef}
                     value={message}
@@ -170,10 +170,14 @@ export default function ChatInput({ onSend, isLoading }) {
                         }
                     }}
                     rows="1"
-                    className="w-full resize-none rounded-xl sm:rounded-2xl border-2 border-gray-200 bg-white/80 backdrop-blur-sm shadow-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-all duration-200 px-3 sm:px-4 py-2.5 sm:py-3 text-base sm:text-base placeholder:text-gray-400"
+                    className="w-full resize-none rounded-xl sm:rounded-2xl border-2 border-gray-200 bg-white/90 sm:bg-white/80 backdrop-blur-sm shadow-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-all duration-200 px-3 sm:px-4 py-2.5 sm:py-3 text-base placeholder:text-gray-400"
                     placeholder={isLoading ? 'Envoi en cours...' : isListening ? '🎤 Écoute...' : 'Tapez votre réponse...'}
                     disabled={isListening}
-                    style={{ minHeight: '44px', maxHeight: '120px' }}
+                    style={{ 
+                        minHeight: isMobile ? '44px' : '48px', 
+                        maxHeight: isMobile ? '100px' : '120px',
+                        fontSize: isMobile ? '16px' : 'inherit' // Prevent zoom on iOS
+                    }}
                 />
                 {isListening && (
                     <div className="absolute top-1/2 right-2 sm:right-3 transform -translate-y-1/2 flex items-center gap-1.5 sm:gap-2 z-10">
@@ -191,20 +195,22 @@ export default function ChatInput({ onSend, isLoading }) {
                     disabled={isLoading}
                     className={`
                         flex-shrink-0
-                        w-10 h-10 sm:w-12 sm:h-12
+                        w-11 h-11 sm:w-12 sm:h-12
                         rounded-full
                         self-center
                         ${isListening 
-                            ? 'bg-red-500 hover:bg-red-600' 
-                            : 'bg-gray-200 hover:bg-gray-300'
+                            ? 'bg-red-500 hover:bg-red-600 active:bg-red-700' 
+                            : 'bg-gray-200 hover:bg-gray-300 active:bg-gray-400'
                         }
                         text-white
                         shadow-lg
                         hover:shadow-xl
+                        active:shadow-md
                         transition-all duration-200
                         flex items-center justify-center
                         disabled:opacity-50
                         disabled:cursor-not-allowed
+                        touch-manipulation
                     `}
                     whileHover={{ scale: isLoading ? 1 : 1.05 }}
                     whileTap={{ scale: isLoading ? 1 : 0.95 }}
@@ -225,19 +231,22 @@ export default function ChatInput({ onSend, isLoading }) {
                 disabled={isLoading || !message.trim() || isListening}
                 className={`
                     flex-shrink-0
-                    w-10 h-10 sm:w-12 sm:h-12
+                    w-11 h-11 sm:w-12 sm:h-12
                     rounded-full
                     self-center
                     bg-gradient-to-r from-primary-600 to-primary-700
                     hover:from-primary-700 hover:to-primary-800
+                    active:from-primary-800 active:to-primary-900
                     text-white
                     shadow-lg
                     hover:shadow-xl
+                    active:shadow-md
                     transition-all duration-200
                     flex items-center justify-center
                     disabled:opacity-50
                     disabled:cursor-not-allowed
                     disabled:hover:shadow-lg
+                    touch-manipulation
                 `}
                 whileHover={{ scale: isLoading ? 1 : 1.05 }}
                 whileTap={{ scale: isLoading ? 1 : 0.95 }}
