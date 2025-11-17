@@ -95,7 +95,7 @@ export default function ChatInput({ onSend, isLoading }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex items-end gap-2" noValidate>
+        <form onSubmit={handleSubmit} className="flex items-end gap-1.5 sm:gap-2" noValidate>
             <div className="flex-1 relative">
                 <textarea
                     ref={textareaRef}
@@ -109,15 +109,15 @@ export default function ChatInput({ onSend, isLoading }) {
                         }
                     }}
                     rows="1"
-                    className="w-full resize-none rounded-2xl border-2 border-gray-200 bg-white/80 backdrop-blur-sm shadow-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-all duration-200 px-4 py-3 text-sm placeholder:text-gray-400"
-                    placeholder={isLoading ? 'Envoi en cours...' : isListening ? '🎤 Écoute en cours...' : 'Tapez votre réponse ou utilisez le microphone...'}
+                    className="w-full resize-none rounded-xl sm:rounded-2xl border-2 border-gray-200 bg-white/80 backdrop-blur-sm shadow-sm focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-all duration-200 px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base placeholder:text-gray-400"
+                    placeholder={isLoading ? 'Envoi en cours...' : isListening ? '🎤 Écoute...' : 'Tapez votre réponse...'}
                     disabled={isListening}
-                    style={{ minHeight: '48px', maxHeight: '120px' }}
+                    style={{ minHeight: '44px', maxHeight: '120px' }}
                 />
                 {isListening && (
-                    <div className="absolute top-1/2 right-2 transform -translate-y-1/2 flex items-center gap-2 z-10">
-                        <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                        <span className="text-xs text-red-500 font-medium">Enregistrement...</span>
+                    <div className="absolute top-1/2 right-2 sm:right-3 transform -translate-y-1/2 flex items-center gap-1.5 sm:gap-2 z-10">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-500 rounded-full animate-pulse"></div>
+                        <span className="text-[10px] sm:text-xs text-red-500 font-medium hidden sm:inline">Enregistrement...</span>
                     </div>
                 )}
             </div>
@@ -130,7 +130,7 @@ export default function ChatInput({ onSend, isLoading }) {
                     disabled={isLoading}
                     className={`
                         flex-shrink-0
-                        w-12 h-12
+                        w-10 h-10 sm:w-12 sm:h-12
                         rounded-full
                         ${isListening 
                             ? 'bg-red-500 hover:bg-red-600' 
@@ -149,9 +149,9 @@ export default function ChatInput({ onSend, isLoading }) {
                     title={isListening ? 'Arrêter l\'enregistrement' : 'Commencer l\'enregistrement vocal'}
                 >
                     {isListening ? (
-                        <MicOff className="w-5 h-5" />
+                        <MicOff className="w-4 h-4 sm:w-5 sm:h-5" />
                     ) : (
-                        <Mic className="w-5 h-5 text-gray-700" />
+                        <Mic className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
                     )}
                 </motion.button>
             )}
@@ -163,7 +163,7 @@ export default function ChatInput({ onSend, isLoading }) {
                 disabled={isLoading || !message.trim() || isListening}
                 className={`
                     flex-shrink-0
-                    w-12 h-12
+                    w-10 h-10 sm:w-12 sm:h-12
                     rounded-full
                     bg-gradient-to-r from-primary-600 to-primary-700
                     hover:from-primary-700 hover:to-primary-800
@@ -180,9 +180,9 @@ export default function ChatInput({ onSend, isLoading }) {
                 whileTap={{ scale: isLoading ? 1 : 0.95 }}
             >
                 {isLoading ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                 ) : (
-                    <Send className="w-5 h-5" />
+                    <Send className="w-4 h-4 sm:w-5 sm:h-5" />
                 )}
             </motion.button>
         </form>

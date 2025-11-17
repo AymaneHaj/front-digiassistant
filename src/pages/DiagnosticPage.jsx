@@ -195,7 +195,7 @@ export default function ChatPage() {
 
   // Render the chat window
   return (
-    <div className="h-[calc(100vh-120px)] flex flex-col">
+    <div className="h-[calc(100vh-80px)] sm:h-[calc(100vh-100px)] md:h-[calc(100vh-120px)] flex flex-col">
       <ChatWindow
         history={history}
         isLoading={isLoading}

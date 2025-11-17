@@ -38,18 +38,18 @@ export default function ChatWindow({ history, isLoading, onSendMessage }) {
     const progressPercentage = Math.min(Math.round((answeredQuestions / TOTAL_QUESTIONS) * 100), 100);
 
     return (
-        <div className="flex flex-col h-full bg-white/80 backdrop-blur-xl shadow-2xl rounded-3xl overflow-hidden border border-gray-200/50">
+        <div className="flex flex-col h-full bg-white/80 backdrop-blur-xl shadow-2xl rounded-xl sm:rounded-3xl overflow-hidden border border-gray-200/50">
             {/* Progress Bar */}
-            <div className="px-6 pt-4 pb-3 bg-gradient-to-r from-primary-50/50 via-white to-blue-50/50 border-b border-gray-200/50">
-                <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-semibold text-[#343A40]">
+            <div className="px-3 sm:px-6 pt-3 sm:pt-4 pb-2 sm:pb-3 bg-gradient-to-r from-primary-50/50 via-white to-blue-50/50 border-b border-gray-200/50">
+                <div className="flex items-center justify-between mb-1.5 sm:mb-2">
+                    <span className="text-xs sm:text-sm font-semibold text-[#343A40]">
                         Progression du diagnostic
                     </span>
-                    <span className="text-sm font-bold text-[#008C9E]">
+                    <span className="text-xs sm:text-sm font-bold text-[#008C9E]">
                         {progressPercentage}%
                     </span>
                 </div>
-                <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
+                <div className="w-full h-2 sm:h-2.5 bg-gray-200 rounded-full overflow-hidden">
                     <motion.div
                         className="h-full bg-gradient-to-r from-[#008C9E] to-[#006b7a] rounded-full"
                         initial={{ width: 0 }}
@@ -57,24 +57,24 @@ export default function ChatWindow({ history, isLoading, onSendMessage }) {
                         transition={{ duration: 0.5, ease: "easeOut" }}
                     />
                 </div>
-                <div className="flex items-center justify-between mt-1.5">
-                    <span className="text-xs text-gray-500">
+                <div className="flex items-center justify-between mt-1 sm:mt-1.5">
+                    <span className="text-[10px] sm:text-xs text-gray-500">
                         {answeredQuestions} / {TOTAL_QUESTIONS} questions répondues
                     </span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-[10px] sm:text-xs text-gray-500">
                         {TOTAL_QUESTIONS - answeredQuestions} restantes
                     </span>
                 </div>
             </div>
 
             {/* Message List */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-5 scrollbar-thin scrollbar-thumb-primary-300 scrollbar-track-gray-100 hover:scrollbar-thumb-primary-400">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 space-y-3 sm:space-y-4 md:space-y-5 scrollbar-thin scrollbar-thumb-primary-300 scrollbar-track-gray-100 hover:scrollbar-thumb-primary-400">
                 {history.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full text-gray-400">
-                        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center mb-4">
-                            <Loader2 className="w-8 h-8 text-primary-500 animate-spin" />
+                        <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center mb-3 sm:mb-4">
+                            <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 text-primary-500 animate-spin" />
                         </div>
-                        <p className="text-sm font-medium">Starting conversation...</p>
+                        <p className="text-xs sm:text-sm font-medium">Starting conversation...</p>
                     </div>
                 ) : (
                     <>
@@ -94,7 +94,7 @@ export default function ChatWindow({ history, isLoading, onSendMessage }) {
             </div>
 
             {/* Input Area */}
-            <div className="border-t border-gray-200/50 bg-gradient-to-r from-primary-50/30 via-white to-blue-50/30 backdrop-blur-sm p-5">
+            <div className="border-t border-gray-200/50 bg-gradient-to-r from-primary-50/30 via-white to-blue-50/30 backdrop-blur-sm p-3 sm:p-4 md:p-5">
                 <ChatInput onSend={onSendMessage} isLoading={isLoading} />
             </div>
         </div>

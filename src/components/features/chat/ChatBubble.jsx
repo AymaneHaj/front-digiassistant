@@ -96,7 +96,7 @@ export default function ChatBubble({ role, content, score, evaluation }) {
 
     return (
         <motion.div
-            className={`flex items-start gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}
+            className={`flex items-start gap-2 sm:gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}
             variants={bubbleVariants}
             initial="hidden"
             animate="visible"
@@ -104,31 +104,31 @@ export default function ChatBubble({ role, content, score, evaluation }) {
             {/* AI Icon */}
             {!isUser && (
                 <motion.div 
-                    className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 via-primary-400 to-primary-600 flex items-center justify-center shadow-lg"
+                    className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-primary-500 via-primary-400 to-primary-600 flex items-center justify-center shadow-lg"
                     whileHover={{ scale: 1.05 }}
                     transition={{ type: 'spring', stiffness: 400 }}
                 >
-                    <Bot className="w-5 h-5 text-white" />
+                    <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                 </motion.div>
             )}
 
             {/* Message Content */}
-            <div className="relative">
+            <div className="relative max-w-[85%] sm:max-w-[75%] md:max-w-md lg:max-w-lg">
                 <motion.div
-                    className={`max-w-xs md:max-w-md lg:max-w-lg px-5 py-3.5 rounded-2xl shadow-md backdrop-blur-sm ${isUser
+                    className={`px-3 py-2 sm:px-4 sm:py-2.5 md:px-5 md:py-3.5 rounded-xl sm:rounded-2xl shadow-md backdrop-blur-sm ${isUser
                             ? 'bg-gradient-to-r from-primary-600 via-primary-500 to-primary-700 text-white rounded-br-sm'
                             : 'bg-white text-gray-800 rounded-bl-sm border border-gray-200/50'
                         }`}
                     whileHover={{ scale: 1.01 }}
                     transition={{ type: 'spring', stiffness: 400 }}
                 >
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap">{content}</p>
+                    <p className="text-xs sm:text-sm leading-relaxed whitespace-pre-wrap break-words">{content}</p>
                     
                     {/* Show score for user messages */}
                     {isUser && (score !== undefined || evaluation?.score !== undefined) && (
-                        <div className="mt-2 pt-2 border-t border-white/20 flex items-center gap-2">
-                            <span className="text-xs font-semibold opacity-90">Score:</span>
-                            <span className="text-xs font-bold bg-white/20 px-2 py-0.5 rounded-full">
+                        <div className="mt-1.5 sm:mt-2 pt-1.5 sm:pt-2 border-t border-white/20 flex items-center gap-1.5 sm:gap-2">
+                            <span className="text-[10px] sm:text-xs font-semibold opacity-90">Score:</span>
+                            <span className="text-[10px] sm:text-xs font-bold bg-white/20 px-1.5 sm:px-2 py-0.5 rounded-full">
                                 {score !== undefined ? score : evaluation?.score}/3
                             </span>
                         </div>
@@ -139,7 +139,7 @@ export default function ChatBubble({ role, content, score, evaluation }) {
                 {!isUser && isSupported && (
                     <motion.button
                         onClick={speakText}
-                        className={`absolute -right-10 top-2 w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-md ${
+                        className={`absolute -right-8 sm:-right-10 top-1.5 sm:top-2 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all shadow-md ${
                             isSpeaking 
                                 ? 'bg-red-500 text-white hover:bg-red-600' 
                                 : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
@@ -149,9 +149,9 @@ export default function ChatBubble({ role, content, score, evaluation }) {
                         title={isSpeaking ? 'Arrêter la lecture' : 'Lire le message'}
                     >
                         {isSpeaking ? (
-                            <VolumeX className="w-4 h-4" />
+                            <VolumeX className="w-3 h-3 sm:w-4 sm:h-4" />
                         ) : (
-                            <Volume2 className="w-4 h-4" />
+                            <Volume2 className="w-3 h-3 sm:w-4 sm:h-4" />
                         )}
                     </motion.button>
                 )}
@@ -161,11 +161,11 @@ export default function ChatBubble({ role, content, score, evaluation }) {
             {/* User Icon */}
             {isUser && (
                 <motion.div 
-                    className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-accent-500 via-accent-400 to-accent-600 flex items-center justify-center shadow-lg"
+                    className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-accent-500 via-accent-400 to-accent-600 flex items-center justify-center shadow-lg"
                     whileHover={{ scale: 1.05 }}
                     transition={{ type: 'spring', stiffness: 400 }}
                 >
-                    <User className="w-5 h-5 text-white" />
+                    <User className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                 </motion.div>
             )}
         </motion.div>

@@ -14,7 +14,7 @@ export default function MainLayout() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
-      <main className={`flex-1 w-full max-w-7xl mx-auto ${isChatPage ? 'px-4 sm:px-6 lg:px-8 py-4' : 'py-8 px-4 sm:px-6 lg:px-8'}`}>
+      <main className={`flex-1 w-full max-w-7xl mx-auto ${isChatPage ? 'px-2 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-3 md:py-4' : 'py-8 px-4 sm:px-6 lg:px-8'}`}>
         {/* Child routes defined in App.jsx will render here */}
         <Outlet />
       </main>
