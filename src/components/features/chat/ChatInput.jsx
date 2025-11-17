@@ -97,7 +97,6 @@ export default function ChatInput({ onSend, isLoading }) {
 
     return (
         <form 
-            ref={inputContainerRef}
             onSubmit={handleSubmit} 
             className="flex items-center gap-1.5 sm:gap-2 w-full" 
             noValidate
@@ -119,9 +118,8 @@ export default function ChatInput({ onSend, isLoading }) {
                     placeholder={isLoading ? 'Envoi en cours...' : isListening ? '🎤 Écoute...' : 'Tapez votre réponse...'}
                     disabled={isListening}
                     style={{ 
-                        minHeight: isMobile ? '44px' : '48px', 
-                        maxHeight: isMobile ? '100px' : '120px',
-                        fontSize: isMobile ? '16px' : 'inherit' // Prevent zoom on iOS
+                        minHeight: '44px', 
+                        maxHeight: '120px'
                     }}
                 />
                 {isListening && (
