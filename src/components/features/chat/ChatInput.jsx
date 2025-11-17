@@ -41,7 +41,7 @@ export default function ChatInput({ onSend, isLoading }) {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // Handle keyboard on mobile - adjust input position
+    // Handle keyboard on mobile - keep input visible above keyboard
     useEffect(() => {
         if (!isMobile) {
             setKeyboardHeight(0);
@@ -57,7 +57,8 @@ export default function ChatInput({ onSend, isLoading }) {
                 
                 // Only update if keyboard is actually visible (threshold: 50px)
                 if (calculatedKeyboardHeight > 50) {
-                    setKeyboardHeight(calculatedKeyboardHeight);
+                    // Don't move input up, just track keyboard height
+                    setKeyboardHeight(0); // Keep at 0 to prevent moving
                 } else {
                     setKeyboardHeight(0);
                 }
@@ -67,13 +68,11 @@ export default function ChatInput({ onSend, isLoading }) {
         // Listen to visual viewport changes (keyboard)
         if (window.visualViewport) {
             window.visualViewport.addEventListener('resize', handleViewportResize);
-            window.visualViewport.addEventListener('scroll', handleViewportResize);
         }
 
         return () => {
             if (window.visualViewport) {
                 window.visualViewport.removeEventListener('resize', handleViewportResize);
-                window.visualViewport.removeEventListener('scroll', handleViewportResize);
             }
         };
     }, [isMobile]);
@@ -148,12 +147,9 @@ export default function ChatInput({ onSend, isLoading }) {
         <form 
             ref={inputContainerRef}
             onSubmit={handleSubmit} 
-            className="flex items-center gap-1.5 sm:gap-2 transition-all duration-300 ease-out w-full" 
+            className="flex items-center gap-1.5 sm:gap-2 w-full" 
             style={{ 
-                transform: keyboardHeight > 0 && isMobile 
-                    ? `translateY(-${Math.min(keyboardHeight, 300)}px)` 
-                    : 'translateY(0)',
-                position: isMobile ? 'relative' : 'static'
+                position: 'relative'
             }}
             noValidate
         >

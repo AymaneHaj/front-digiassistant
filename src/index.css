@@ -171,6 +171,14 @@ html {
   }
 }
 
+/* Mobile chat container - use dvh for better keyboard handling */
+@media (max-width: 640px) {
+  .mobile-chat-container {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+  }
+}
+
 /* Custom Focus Styles */
 *:focus-visible {
   outline: 2px solid #008C9E;
