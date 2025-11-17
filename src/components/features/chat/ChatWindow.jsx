@@ -68,7 +68,7 @@ export default function ChatWindow({ history, isLoading, onSendMessage }) {
             </div>
 
             {/* Message List */}
-            <div className="flex-1 overflow-y-auto p-2.5 sm:p-4 md:p-6 space-y-2.5 sm:space-y-4 md:space-y-5 scrollbar-thin" style={{ WebkitOverflowScrolling: 'touch' }}>
+            <div className="flex-1 overflow-y-auto p-2.5 sm:p-4 md:p-6 space-y-2.5 sm:space-y-4 md:space-y-5 scrollbar-thin mobile-messages-area" style={{ WebkitOverflowScrolling: 'touch' }}>
                 {history.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full text-gray-400">
                         <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center mb-3 sm:mb-4">
@@ -94,7 +94,7 @@ export default function ChatWindow({ history, isLoading, onSendMessage }) {
             </div>
 
             {/* Input Area */}
-            <div className="border-t border-gray-200/50 bg-gradient-to-r from-primary-50/30 via-white to-blue-50/30 backdrop-blur-sm p-2.5 sm:p-3 md:p-4 lg:p-5 flex-shrink-0">
+            <div className="border-t border-gray-200/50 bg-gradient-to-r from-primary-50/30 via-white to-blue-50/30 backdrop-blur-sm p-2.5 sm:p-3 md:p-4 lg:p-5 flex-shrink-0 mobile-input-area">
                 <ChatInput onSend={onSendMessage} isLoading={isLoading} />
             </div>
         </div>
