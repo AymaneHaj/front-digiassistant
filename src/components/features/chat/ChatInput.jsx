@@ -10,12 +10,9 @@ export default function ChatInput({ onSend, isLoading }) {
     const [message, setMessage] = useState('');
     const [isListening, setIsListening] = useState(false);
     const [isSupported, setIsSupported] = useState(false);
-    const [keyboardHeight, setKeyboardHeight] = useState(0);
-    const [isMobile, setIsMobile] = useState(false);
     const recognitionRef = useRef(null);
     const textareaRef = useRef(null);
     const prevIsLoadingRef = useRef(isLoading);
-    const inputContainerRef = useRef(null);
 
     // Clear input and auto-focus when loading finishes (response received)
     // This ensures the input stays empty and is ready for typing after receiving the AI response
@@ -31,51 +28,6 @@ export default function ChatInput({ onSend, isLoading }) {
         prevIsLoadingRef.current = isLoading;
     }, [isLoading]);
 
-    // Check if mobile
-    useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth <= 640);
-        };
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
-
-    // Handle keyboard on mobile - keep input visible above keyboard
-    useEffect(() => {
-        if (!isMobile) {
-            setKeyboardHeight(0);
-            return;
-        }
-
-        const handleViewportResize = () => {
-            if (window.visualViewport) {
-                // Calculate keyboard height using visual viewport
-                const viewportHeight = window.visualViewport.height;
-                const windowHeight = window.innerHeight;
-                const calculatedKeyboardHeight = windowHeight - viewportHeight;
-                
-                // Only update if keyboard is actually visible (threshold: 50px)
-                if (calculatedKeyboardHeight > 50) {
-                    // Don't move input up, just track keyboard height
-                    setKeyboardHeight(0); // Keep at 0 to prevent moving
-                } else {
-                    setKeyboardHeight(0);
-                }
-            }
-        };
-
-        // Listen to visual viewport changes (keyboard)
-        if (window.visualViewport) {
-            window.visualViewport.addEventListener('resize', handleViewportResize);
-        }
-
-        return () => {
-            if (window.visualViewport) {
-                window.visualViewport.removeEventListener('resize', handleViewportResize);
-            }
-        };
-    }, [isMobile]);
 
     // Check if Speech Recognition is supported
     useEffect(() => {
@@ -147,11 +99,7 @@ export default function ChatInput({ onSend, isLoading }) {
         <form 
             ref={inputContainerRef}
             onSubmit={handleSubmit} 
-            className="flex items-center gap-1.5 sm:gap-2 w-full mobile-input-form" 
-            style={{ 
-                position: 'relative',
-                transform: 'none'
-            }}
+            className="flex items-center gap-1.5 sm:gap-2 w-full" 
             noValidate
         >
             <div className="flex-1 relative min-w-0">

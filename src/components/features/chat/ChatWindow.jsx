@@ -38,7 +38,7 @@ export default function ChatWindow({ history, isLoading, onSendMessage }) {
     const progressPercentage = Math.min(Math.round((answeredQuestions / TOTAL_QUESTIONS) * 100), 100);
 
     return (
-        <div className="flex flex-col h-full bg-white/80 backdrop-blur-xl shadow-2xl rounded-lg sm:rounded-xl md:rounded-3xl overflow-hidden border border-gray-200/50 mobile-chat-window" style={{ minHeight: 0, transform: 'none' }}>
+        <div className="flex flex-col h-full bg-white/80 backdrop-blur-xl shadow-2xl rounded-lg sm:rounded-xl md:rounded-3xl overflow-hidden border border-gray-200/50 mobile-chat-window" style={{ minHeight: 0 }}>
             {/* Progress Bar */}
             <div className="px-3 sm:px-6 pt-3 sm:pt-4 pb-2 sm:pb-3 bg-gradient-to-r from-primary-50/50 via-white to-blue-50/50 border-b border-gray-200/50">
                 <div className="flex items-center justify-between mb-1.5 sm:mb-2">
