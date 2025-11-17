@@ -178,35 +178,53 @@ html {
     max-height: 100dvh !important;
     position: relative;
     padding: 0 !important;
+    overflow: hidden;
   }
   
-  /* Fixed input area on mobile */
+  /* Fixed input area on mobile - always visible */
   .mobile-input-area {
     position: fixed !important;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background: linear-gradient(to right, rgba(224, 247, 250, 0.95), rgba(255, 255, 255, 1), rgba(224, 247, 250, 0.95));
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid rgba(229, 231, 235, 0.5);
-    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
-    width: 100%;
-    margin: 0;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 9999 !important;
+    background: linear-gradient(to right, rgba(224, 247, 250, 0.98), rgba(255, 255, 255, 1), rgba(224, 247, 250, 0.98)) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-top: 1px solid rgba(229, 231, 235, 0.6) !important;
+    box-shadow: 0 -4px 12px -2px rgba(0, 0, 0, 0.15), 0 -2px 6px -1px rgba(0, 0, 0, 0.1) !important;
+    width: 100vw !important;
+    margin: 0 !important;
     padding: 0.625rem 0.5rem !important;
     padding-bottom: calc(0.625rem + env(safe-area-inset-bottom, 0px)) !important;
+    transform: none !important;
+    will-change: auto;
   }
   
   /* Add padding to messages area to account for fixed input */
   .mobile-messages-area {
-    padding-bottom: 85px !important;
+    padding-bottom: 90px !important;
+    margin-bottom: 0 !important;
   }
   
   /* Ensure chat window doesn't overflow */
-  .mobile-chat-container > div {
+  .mobile-chat-container > div,
+  .mobile-chat-window {
     height: 100%;
     overflow: hidden;
+    position: relative;
+    transform: none !important;
+  }
+  
+  /* Ensure parent containers don't affect fixed positioning */
+  .mobile-chat-container,
+  .mobile-chat-container * {
+    transform: none !important;
+  }
+  
+  /* Exception: allow transforms only for animations */
+  .mobile-chat-window [class*="motion"] {
+    transform: initial !important;
   }
   
   /* Remove horizontal padding from main container on mobile for chat */
@@ -216,11 +234,27 @@ html {
     width: calc(100% + 1rem);
   }
   
-  /* Ensure input stays above keyboard */
+  /* Ensure input stays above keyboard and doesn't move */
   .mobile-input-area form {
     max-width: 100%;
     margin: 0 auto;
     padding: 0 0.5rem;
+    position: relative;
+  }
+  
+  /* Prevent any transforms on input area */
+  .mobile-input-area,
+  .mobile-input-area *,
+  .mobile-input-form {
+    transform: none !important;
+    will-change: auto !important;
+  }
+  
+  /* Ensure body doesn't scroll when input is focused */
+  body:has(.mobile-input-area textarea:focus) {
+    position: fixed;
+    width: 100%;
+    overflow: hidden;
   }
 }
 

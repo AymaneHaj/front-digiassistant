@@ -147,9 +147,10 @@ export default function ChatInput({ onSend, isLoading }) {
         <form 
             ref={inputContainerRef}
             onSubmit={handleSubmit} 
-            className="flex items-center gap-1.5 sm:gap-2 w-full" 
+            className="flex items-center gap-1.5 sm:gap-2 w-full mobile-input-form" 
             style={{ 
-                position: 'relative'
+                position: 'relative',
+                transform: 'none'
             }}
             noValidate
         >
