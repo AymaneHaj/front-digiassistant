@@ -1,0 +1,220 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #008C9E;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #008C9E;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #F8F9FA;
+  color: #343A40;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  color: #343A40;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Custom Scrollbar Styles - Hidden */
+.scrollbar-thin {
+  scrollbar-width: none; /* Firefox - hide scrollbar */
+  -ms-overflow-style: none; /* IE and Edge - hide scrollbar */
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera - hide scrollbar */
+  width: 0;
+  height: 0;
+}
+
+/* Keep scrolling functionality */
+.scrollbar-thin {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Smooth Animations */
+* {
+  transition-property: color, background-color, border-color;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in-out;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glassmorphism Effect */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, #008C9E, #006b7a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 640px) {
+  /* Ensure touch targets are at least 44x44px */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent text size adjustment on iOS */
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  /* Better scrolling on mobile */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Scrollbar hidden on mobile - scrolling still works */
+  .scrollbar-thin {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  
+  /* Better text readability on mobile */
+  p, span, div {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Prevent horizontal scroll on mobile */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Better spacing for small screens */
+  .container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  /* Better input handling on mobile */
+  textarea, input {
+    font-size: 16px !important; /* Prevent zoom on iOS */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  
+  /* Better touch targets */
+  button {
+    -webkit-tap-highlight-color: rgba(0, 140, 158, 0.2);
+    touch-action: manipulation;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 375px) {
+  /* Scrollbar remains hidden */
+  .scrollbar-thin {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+/* Mobile chat container - use dvh for better keyboard handling */
+@media (max-width: 640px) {
+  .mobile-chat-container {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    position: relative;
+  }
+  
+  /* Input area - normal positioning, scrolls with content */
+  .mobile-input-area {
+    position: relative;
+    background: linear-gradient(to right, rgba(224, 247, 250, 0.3), rgba(255, 255, 255, 1), rgba(224, 247, 250, 0.3));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  
+  /* Messages area - normal padding */
+  .mobile-messages-area {
+    padding-bottom: 0.5rem;
+  }
+  
+  /* Ensure chat window works properly */
+  .mobile-chat-container > div,
+  .mobile-chat-window {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+}
+
+/* Custom Focus Styles */
+*:focus-visible {
+  outline: 2px solid #008C9E;
+  outline-offset: 2px;
+}
+
+/* Button Hover Effects */
+.btn-primary {
+  background: linear-gradient(135deg, #008C9E, #006b7a);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #006b7a, #008C9E);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 140, 158, 0.3);
+}
